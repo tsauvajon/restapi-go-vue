@@ -32,7 +32,10 @@ func testMain(m *testing.M) {
 	app.Initialize(
 		os.Getenv("TEST_DB_USERNAME"),
 		os.Getenv("TEST_DB_PASSWORD"),
-		os.Getenv("TEST_DB_NAME"))
+		os.Getenv("TEST_DB_NAME"),
+		os.Getenv("TEST_DB_HOST"),
+		"5432",
+		"require")
 
 	ensureTableExists()
 	code := m.Run()
