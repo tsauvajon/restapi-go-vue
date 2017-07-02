@@ -1,0 +1,23 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "remotePath": "",
+            "port": 2345,
+            "host": "127.0.0.1",
+            "program": "${fileDirname}",
+            "env": {
+                "TEST_DB_USERNAME": "testing",
+                "TEST_DB_PASSWORD": "testing",
+                "TEST_DB_HOST": "localhost",
+                "TEST_DB_NAME": "restapi-go-vue"
+            },
+            "args": [],
+            "showLog": true
+        }
+    ]
+}
