@@ -12,5 +12,9 @@ func main() {
 		"5432",
 		"require")
 
-	app.Run(":5678")
+	port := os.Getenv("PORT")
+	if port == nil {
+		port = 5678
+	}
+	app.Run(":" + port)
 }
