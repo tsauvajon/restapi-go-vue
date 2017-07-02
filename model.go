@@ -11,7 +11,7 @@ type product struct {
 }
 
 func (p *product) getProduct(db *sql.DB) error {
-	return db.QueryRow("SELECT name, price WHERE id=$1", p.ID).Scan(&p.Name, &p.Price)
+	return db.QueryRow("SELECT name, price FROM products WHERE id=$1", p.ID).Scan(&p.Name, &p.Price)
 }
 
 func (p *product) updateProduct(db *sql.DB) error {
@@ -42,9 +42,9 @@ func getProducts(db *sql.DB, start, count int) ([]product, error) {
 	// Will execute at the end of the scope
 	defer rows.Close()
 
-	// products := []product{}
+	products := []product{}
 	// https://github.com/golang/go/wiki/CodeReviewComments#declaring-empty-slices
-	var products []product
+	// var products []product
 
 	for rows.Next() {
 		var p product

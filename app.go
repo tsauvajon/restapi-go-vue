@@ -144,6 +144,14 @@ func (app *App) deleteProduct(w http.ResponseWriter, r *http.Request) {
 	respondWithJSON(w, http.StatusOK, map[string]string{"result": "success"})
 }
 
+func (app *App) initializeRoutes() {
+	app.Router.HandleFunc("/products", app.getProducts).Methods("GET")
+	app.Router.HandleFunc("/products", app.createProduct).Methods("POST")
+	app.Router.HandleFunc("/products/{id:[0-9]+}", app.getProduct).Methods("GET")
+	app.Router.HandleFunc("/products/{id:[0-9]+}", app.updateProduct).Methods("PUT")
+	app.Router.HandleFunc("/products/{id:[0-9]+}", app.deleteProduct).Methods("DELETE")
+}
+
 // Initialize : connects to postgresql
 func (app *App) Initialize(user, password, dbname, host, port, sslmode string) {
 	connectionString := fmt.Sprintf("user=%s password=%s dbname=%s host=%s port=%s sslmode=%s", user, password, dbname, host, port, sslmode)
@@ -155,9 +163,10 @@ func (app *App) Initialize(user, password, dbname, host, port, sslmode string) {
 	}
 
 	app.Router = mux.NewRouter()
+	app.initializeRoutes()
 }
 
 // Run : runs the app
 func (app *App) Run(addr string) {
-
+	log.Fatal(http.ListenAndServe(":8080", app.Router))
 }

@@ -93,7 +93,7 @@ func TestEmptyTable(t *testing.T) {
 
 func TestNonExistantProduct(t *testing.T) {
 	clearTable()
-	req, _ := http.NewRequest("GET", "product/11", nil)
+	req, _ := http.NewRequest("GET", "/products/11", nil)
 	response := executeRequest(req)
 
 	checkResponseCode(t, http.StatusNotFound, response.Code)
