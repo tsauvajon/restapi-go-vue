@@ -148,9 +148,13 @@ func (app *App) deleteProduct(w http.ResponseWriter, r *http.Request) {
 func (app *App) indexHandler(w http.ResponseWriter, r *http.Request) {
 	entry := "client/dist/index.html"
 
-	tpl := template.New("index")   //create a new template
-	tpl, _ = tpl.ParseFiles(entry) //open and parse a template text file
-	tpl.Execute(w, nil)
+	// open and parse a template text file
+	// TODO: Refactor and clean
+	if tpl, err := template.New("index").ParseFiles(entry); err != nil {
+		log.Fatal(err)
+	} else {
+		tpl.Lookup("index").ExecuteTemplate(w, "index.html", nil)
+	}
 }
 
 func (app *App) initializeRoutes() {
@@ -186,5 +190,5 @@ func (app *App) Initialize(user, password, dbname, host, port, sslmode string) {
 
 // Run : runs the app
 func (app *App) Run(addr string) {
-	log.Fatal(http.ListenAndServe(":4567", app.Router))
+	log.Fatal(http.ListenAndServe(addr, app.Router))
 }
