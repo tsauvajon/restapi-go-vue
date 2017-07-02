@@ -30,7 +30,7 @@
 <script>
 import axios from 'axios';
 
-const api = ''; // 'http://localhost:5678/api';
+const api = '/api'; // 'http://localhost:5678/api';
 
 export default {
   name: 'hello',
@@ -62,7 +62,7 @@ export default {
 
     async retrieveProducts() {
       const response = await axios.get(`${api}/products`);
-      this.products = response.data;
+      this.products = response.data.sort((a, b) => a.id - b.id);
     },
   },
 
