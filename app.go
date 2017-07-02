@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"html/template"
 	"log"
 	"strconv"
 
@@ -144,12 +145,29 @@ func (app *App) deleteProduct(w http.ResponseWriter, r *http.Request) {
 	respondWithJSON(w, http.StatusOK, map[string]string{"result": "success"})
 }
 
+func (app *App) indexHandler(w http.ResponseWriter, r *http.Request) {
+	entry := "client/dist/index.html"
+
+	tpl := template.New("index")   //create a new template
+	tpl, _ = tpl.ParseFiles(entry) //open and parse a template text file
+	tpl.Execute(w, nil)
+}
+
 func (app *App) initializeRoutes() {
-	app.Router.HandleFunc("/products", app.getProducts).Methods("GET")
-	app.Router.HandleFunc("/products", app.createProduct).Methods("POST")
-	app.Router.HandleFunc("/products/{id:[0-9]+}", app.getProduct).Methods("GET")
-	app.Router.HandleFunc("/products/{id:[0-9]+}", app.updateProduct).Methods("PUT")
-	app.Router.HandleFunc("/products/{id:[0-9]+}", app.deleteProduct).Methods("DELETE")
+	static := "./client/dist/static/"
+
+	api := app.Router.PathPrefix("/api/").Subrouter()
+
+	api.HandleFunc("/products", app.getProducts).Methods("GET")
+	api.HandleFunc("/products", app.createProduct).Methods("POST")
+	api.HandleFunc("/products/{id:[0-9]+}", app.getProduct).Methods("GET")
+	api.HandleFunc("/products/{id:[0-9]+}", app.updateProduct).Methods("PUT")
+	api.HandleFunc("/products/{id:[0-9]+}", app.deleteProduct).Methods("DELETE")
+
+	//app.Router.PathPrefix("/dist/").Handler(http.FileServer(http.Dir(static)))
+	app.Router.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir(static))))
+
+	app.Router.HandleFunc("/", app.indexHandler).Methods("GET")
 }
 
 // Initialize : connects to postgresql
@@ -168,5 +186,5 @@ func (app *App) Initialize(user, password, dbname, host, port, sslmode string) {
 
 // Run : runs the app
 func (app *App) Run(addr string) {
-	log.Fatal(http.ListenAndServe(":8080", app.Router))
+	log.Fatal(http.ListenAndServe(":4567", app.Router))
 }
