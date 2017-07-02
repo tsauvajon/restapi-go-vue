@@ -1,0 +1,22 @@
+{
+	"ImportPath": "github.com/tsauvajon/restapi-go-vue",
+	"GoVersion": "go1.8",
+	"GodepVersion": "v79",
+	"Deps": [
+		{
+			"ImportPath": "github.com/gorilla/mux",
+			"Comment": "v1.4.0-11-g8c683ee",
+			"Rev": "8c683ee571b6ee7ffc9f1cafd13103c422e71cbf"
+		},
+		{
+			"ImportPath": "github.com/lib/pq",
+			"Comment": "go1.0-cutoff-171-g8837942",
+			"Rev": "8837942c3e09574accbc5f150e2c5e057189cace"
+		},
+		{
+			"ImportPath": "github.com/lib/pq/oid",
+			"Comment": "go1.0-cutoff-171-g8837942",
+			"Rev": "8837942c3e09574accbc5f150e2c5e057189cace"
+		}
+	]
+}
