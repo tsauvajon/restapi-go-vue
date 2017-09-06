@@ -3,7 +3,7 @@ Go REST Api + postresql db + Vue.js frontend
 
 ## Demo
 
-[Here](restapi-go-vue.herokuapp.com/?/#/)
+[Here](https://restapi-go-vue.herokuapp.com/?/#/)
 
 ## Getting started
 
